@@ -8,7 +8,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "uas" "usbhid" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "uas" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -22,6 +22,16 @@
     { device = "/dev/disk/by-uuid/99CB-56BE";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  fileSystems."/var/homelab" =
+    { device = "/dev/disk/by-uuid/2e4ced02-de7e-450d-a9f8-11d6e2776685";
+      fsType = "ext4";
+    };
+
+  fileSystems."/var/homelab2" =
+    { device = "/dev/disk/by-uuid/0d4dce72-d6ef-4a2a-8312-5ca00fd14674";
+      fsType = "ext4";
     };
 
   swapDevices = [ ];
