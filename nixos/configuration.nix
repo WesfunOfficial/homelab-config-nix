@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./nvidia-drivers.nix
+      ./docker.nix
       ./podman.nix
     ];
   
@@ -56,7 +57,7 @@
   users.users.tsf-ruler = {
     isNormalUser = true;
     description = "The Ruler of the Shadow Flakes";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -71,6 +72,8 @@
   fastfetch
   nvtopPackages.nvidia
   nvidia-container-toolkit
+  cockpit
+  htop
   ];
 
    # Some programs need SUID wrappers, can be configured further or are
@@ -82,7 +85,15 @@
    };
 
   # List services that you want to enable:
-
+  services.cockpit = {
+    enable = true;
+    port = 9090;
+    settings = {
+      WebService = {
+        AllowUnencrypted = true;
+      };
+    };
+  };
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   
@@ -99,12 +110,13 @@
     gc = {
       automatic = true;
       dates = "daily";
-      options = "--delete-older-than 1d";
+      options = "--delete-older-than 3d";
     };
   };
 
   system.autoUpgrade = {
     enable = true;
+    allowReboot = true;
     flags = [
       "--update-input"
       "nixpkgs"
