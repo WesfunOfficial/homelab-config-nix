@@ -74,6 +74,9 @@
   nvidia-container-toolkit
   cockpit
   htop
+  jellyfin
+  jellyfin-web
+  jellyfin-ffmpeg
   ];
 
    # Some programs need SUID wrappers, can be configured further or are
@@ -85,6 +88,10 @@
    };
 
   # List services that you want to enable:
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+  };
   services.cockpit = {
     enable = true;
     port = 9090;
