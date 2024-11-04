@@ -77,6 +77,7 @@
   jellyfin
   jellyfin-web
   jellyfin-ffmpeg
+  packagekit
   ];
 
    # Some programs need SUID wrappers, can be configured further or are
@@ -94,6 +95,7 @@
   };
   services.cockpit = {
     enable = true;
+    openFirewall = true;
     port = 9090;
     settings = {
       WebService = {
